@@ -33,6 +33,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = ['full_name'];
+
     /**
      * The attributes that should be cast.
      *
@@ -42,13 +44,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function user_roles()
+
+
+    public function role()
     {
-        return $this->belongsToMany(UserRole::class);
+        return $this->belongsTo(Role::class, 'user_id');
     }
 
-    public function roles()
+    public function getFullNameAttribute()
     {
-        return $this->belongsToMany(Role::class, 'user_roles');
+        $full_name = $this->last_name . ' ' . $this->first_name;
+        return $full_name;
     }
 }

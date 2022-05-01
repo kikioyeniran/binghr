@@ -14,13 +14,15 @@ class Role extends Model
     // Timestamsp
     public $timestamps = true;
 
-    public function user_roles()
+
+    public function user()
     {
-        return $this->belongsToMany(UserRole::class);
+        return $this->hasOne(User::class);
     }
 
-    public function users()
+
+    public function permission()
     {
-        return $this->belongsToMany(User::class, 'user_roles');
+        return $this->hasOne(Permission::class);
     }
 }
