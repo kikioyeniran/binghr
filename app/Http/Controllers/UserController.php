@@ -60,6 +60,7 @@ class UserController extends Controller
             $user->employee_id = $request->employee_id;
             $user->username = $request->username;
             $user->role_id = $request->role;
+            $user->permission_id = $request->permission;
             $user->password = Hash::make($request->password);
             $user->save();
 
@@ -115,6 +116,7 @@ class UserController extends Controller
             $user->employee_id = $request->employee_id;
             $user->username = $request->username;
             $user->role_id = $request->role;
+            $user->permission_id = $request->permission;
             $user->password = Hash::make($request->password);
             $user->save();
 
@@ -134,8 +136,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->back()->with('success', 'Record Deleted Successfully');
     }
 }
