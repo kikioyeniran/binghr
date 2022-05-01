@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\action\UtilitiesController;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -49,6 +50,7 @@ class UserController extends Controller
                 'role' => 'required|bail',
                 'username' => 'required|bail|string',
                 'password' => 'required|string|confirmed|min:6',
+                'picture' => 'image|nullable|max:4999',
             ]);
 
 
@@ -62,6 +64,12 @@ class UserController extends Controller
             $user->role_id = $request->role;
             $user->permission_id = $request->permission;
             $user->password = Hash::make($request->password);
+            $image = $request->file('picture');
+            if ($request->hasFile('picture')) {
+                $call = new UtilitiesController();
+                $fileNameToStore = $call->fileNameToStore($image);
+                $user->picture = $fileNameToStore;
+            }
             $user->save();
 
             // try {
@@ -106,6 +114,7 @@ class UserController extends Controller
                 'role' => 'required|bail',
                 'username' => 'required|bail|string',
                 'password' => 'required|string|confirmed|min:6',
+                'picture' => 'image|nullable|max:4999',
             ]);
 
             // $user = new User();
@@ -118,6 +127,12 @@ class UserController extends Controller
             $user->role_id = $request->role;
             $user->permission_id = $request->permission;
             $user->password = Hash::make($request->password);
+            $image = $request->file('picture');
+            if ($request->hasFile('picture')) {
+                $call = new UtilitiesController();
+                $fileNameToStore = $call->fileNameToStore($image);
+                $user->picture = $fileNameToStore;
+            }
             $user->save();
 
             return redirect()->back()->with('success', 'User Updated Successfully!');
