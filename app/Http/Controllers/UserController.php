@@ -20,7 +20,8 @@ class UserController extends Controller
     public function index()
     {
         $roles  = Role::where('disabled', false)->get();
-        return view('users.index', compact('roles'));
+        $users = User::all();
+        return view('users.index', compact('roles', 'users'));
     }
 
     /**

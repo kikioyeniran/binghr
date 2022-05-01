@@ -93,7 +93,7 @@
 
         </div>
     </nav>
-    <nav id="sidebar" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
+    <nav id="sidebar" class="col-md-2 col-lg-2 d-md-block bg-white sidebar collapse">
         <div class="position-sticky">
             <ul class="nav flex-column">
                 <li class="nav-item">
