@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Estate Intel Recruitment CRUD API DOCUMENTATIONS
+## BING HR PHP DEVELOPER ASSESSMENT DOCUMENTATION
 
 <p align="left">This project was built with the very powerful and efficient Laravel PHP Framework.
 
