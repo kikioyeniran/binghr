@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\action\UtilitiesController;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,8 +22,9 @@ class UserController extends Controller
     public function index()
     {
         $roles  = Role::where('disabled', false)->get();
+        $permissions  = Permission::where('disabled', false)->get();
         $users = User::all();
-        return view('users.index', compact('roles', 'users'));
+        return view('users.index', compact('roles', 'users', 'permissions'));
     }
 
     /**

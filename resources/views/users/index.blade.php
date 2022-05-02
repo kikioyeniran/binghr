@@ -3,7 +3,7 @@
 @section('content')
     <div class="flex-row d-flex justify-content-end mb-4">
         <div class="col-lg-4 d-flex justify-content-end">
-            <button class="btn btn-lg btn-success modal-btn" data-toggle="modal" data-target="#exampleModal">Add User</button>
+            <button class="btn btn-lg btn-success modal-btn" data-toggle="modal" data-target="#createUserModal">Add User</button>
         </div>
     </div>
 
@@ -67,30 +67,132 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="recipient-name" class="col-form-label">Recipient:</label>
-                  <input type="text" class="form-control" id="recipient-name">
+    <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="createUserModalLabel">Add User</h5>
+                      <a href="#" data-dismiss="modal" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                            <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+                          </svg>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label for="recipient-name" class="col-form-label">Employee ID*</label>
+                                    <input type="text" class="form-control custom-control" name="employee_id" id="recipient-name" placeholder="Employee ID *">
+                                  </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label for="recipient-name" class="col-form-label">Select Profile Picture</label>
+                                    <input type="file" class="form-control custom-control" name="picture" id="recipient-name" placeholder="Profile Picture *">
+                                  </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <input type="text" name="first_name" placeholder="First Name *" id="" class="form-control custom-control" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <input type="text" name="last_name" placeholder="Last Name *" id="" class="form-control custom-control" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <input type="email" name="email" placeholder="Email ID *" id="" class="form-control custom-control" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <input type="tel" name="phone" placeholder="Mobile No *" id="" class="form-control custom-control" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <select name="role" id="" class="form-select custom-control" required>
+                                        <option value="">Select Role Type</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <input type="text" name="username" placeholder="Username *" id="" class="form-control custom-control" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <input type="password" name="password" placeholder="Password *" id="" class="form-control custom-control" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="mb-4">
+                                    <input type="password" name="password_confirmation" placeholder="Confirm Password *" id="" class="form-control custom-control" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module-header">
+                        <div class="row p-4 justify-content-between">
+                            <div class="col-lg-5">
+                                <h6 class="permission-header">Module Permission</h6>
+                            </div>
+                            <div class="col-lg-2">
+                                <h6 class="permission-header">Read</h6>
+                            </div>
+                            <div class="col-lg-2">
+                                <h6 class="permission-header">Write</h6>
+                            </div>
+                            <div class="col-lg-2">
+                                <h6 class="permission-header">Delete</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row p-4 justify-content-between">
+                            <input type="hidden" name="permission">
+                            @foreach ($permissions as $permission)
+                                <div class="col-lg-5">
+                                    <h6 class="mb-4 permission-header">{{ $permission->name }}</h6>
+                                </div>
+                                <div class="col-lg-2">
+                                    <h6 class="mb-4 permission-header ">
+                                        <input class="form-check-input type{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" id="flexCheckChecked" {{ $permission->read == true ? 'checked' : '' }}>
+                                    </h6>
+                                </div>
+                                <div class="col-lg-2">
+                                    <h6 class="mb-4 permission-header">
+                                        <input class="form-check-input type{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" id="flexCheckChecked" {{ $permission->write == true ? 'checked' : '' }}>
+                                    </h6>
+                                </div>
+                                <div class="col-lg-2">
+                                    <h6 class="mb-4 permission-header">
+                                        <input class="form-check-input type{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" id="flexCheckChecked" {{ $permission->delete == true ? 'checked' : '' }}>
+                                    </h6>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary mr-3">Add User</button>
+                        <a href="#" class="modal-close" data-dismiss="modal">Close</a>
+                    </div>
                 </div>
-                <div class="mb-3">
-                  <label for="message-text" class="col-form-label">Message:</label>
-                  <textarea class="form-control" id="message-text"></textarea>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Send message</button>
-            </div>
-          </div>
+            </form>
         </div>
     </div>
 

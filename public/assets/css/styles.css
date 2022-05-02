@@ -110,7 +110,7 @@
 
 }
 
-thead {
+thead, .module-header {
     background-color: #eff4fa;
     color: #b9b1b1 !important;
     font-weight: 500 !important;
@@ -123,6 +123,15 @@ th{
 .tb-img {
     border-radius: 50%;
     height: 50px;
+}
+
+.modal-close {
+    color:rgba(0, 0, 0, 0.483);
+    text-decoration: none;
+}
+
+.modal-title {
+    font-weight: 500 !important;
 }
 
 .user-name {
@@ -144,6 +153,10 @@ th{
 tr {
     /* border-bottom: 1px solid #eee; */
     /* border-style: solid !important; */
+}
+
+.permission-header {
+    font-weight: 400 !important;
 }
 
 /* tbody, td, tfoot, th, thead, tr{
