@@ -27,7 +27,11 @@
                         <td class="">
                             <div class="d-flex align-items-center">
                                 <div class="symbol symbol-50 flex-shrink-0">
-                                    <img src="{{ asset($file_location.$user->picture) }}" alt="photo" class="tb-img">
+                                    @if ($user->picture == 'noimage.jpg')
+                                        <img src="{{ asset('images/person.jpg') }}" alt="photo" class="tb-img">
+                                    @else
+                                        <img src="{{ asset($file_location.$user->picture) }}" alt="photo" class="tb-img">
+                                    @endif
                                 </div>
 
                                 <div class="ml-3">
