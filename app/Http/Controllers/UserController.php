@@ -116,7 +116,7 @@ class UserController extends Controller
                 'employee_id' => 'required|bail',
                 'role' => 'required|bail',
                 'username' => 'required|bail|string',
-                'password' => 'required|string|confirmed|min:6',
+                'password' => 'nullable|string|confirmed|min:6',
                 'picture' => 'image|nullable|max:4999',
             ]);
 
@@ -129,7 +129,9 @@ class UserController extends Controller
             $user->username = $request->username;
             $user->role_id = $request->role;
             $user->permission_id = $request->permission;
-            $user->password = Hash::make($request->password);
+            if ($request->password != null) {
+                $user->password = Hash::make($request->password);
+            }
             $image = $request->file('picture');
             if ($request->hasFile('picture')) {
                 $call = new UtilitiesController();

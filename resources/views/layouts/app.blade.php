@@ -22,9 +22,9 @@
             @include('inc.navbar')
             <main class="col-md-9 ml-sm-auto col-lg-9 px-md-4 py-4">
 
-                    @yield('content')
-                @include('inc.footer')
+                @yield('content')
             </main>
+            @include('inc.footer')
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
