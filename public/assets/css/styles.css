@@ -159,6 +159,15 @@ tr {
     font-weight: 400 !important;
 }
 
+.row-link {
+    color: #000;
+    text-decoration: none;
+}
+
+.row-link:hover {
+    background-color: #eff4fa;
+}
+
 /* tbody, td, tfoot, th, thead, tr{
     border-style: none !important;
 } */

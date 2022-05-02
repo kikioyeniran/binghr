@@ -34,7 +34,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'permission'];
 
     /**
      * The attributes that should be cast.
@@ -49,7 +49,12 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(Role::class, 'user_id');
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function permission()
+    {
+        return $this->belongsTo(Permission::class, 'permission_id');
     }
 
     public function getFullNameAttribute()

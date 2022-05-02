@@ -19,10 +19,4 @@ class Role extends Model
     {
         return $this->hasOne(User::class);
     }
-
-
-    public function permission()
-    {
-        return $this->hasOne(Permission::class);
-    }
 }

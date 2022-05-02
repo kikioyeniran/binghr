@@ -27,7 +27,7 @@
                         <td class="">
                             <div class="d-flex align-items-center">
                                 <div class="symbol symbol-50 flex-shrink-0">
-                                    <img src="{{ asset('images/person.jpg') }}" alt="photo" class="tb-img">
+                                    <img src="{{ asset($file_location.$user->picture) }}" alt="photo" class="tb-img">
                                 </div>
 
                                 <div class="ml-3">
@@ -36,9 +36,19 @@
                                 </div>
                             </div>
                         </td>
-                        <td><button class="btn btn-danger btn-sm">Super Admin</button></td>
+                        <td>
+                            @if ($user->permission->name == 'Super Admin')
+                                <button class="btn btn-danger btn-sm">Super Admin</button>
+                            @elseif ($user->permission->name == 'Admin')
+                                <button class="btn btn-primary btn-sm">Admin</button>
+                            @elseif ($user->permission->name == 'HR Admin')
+                                <button class="btn btn-success btn-sm">HR Admin</button>
+                            @else
+                                <button class="btn btn-secondary btn-sm">Employee</button>
+                            @endif
+                        </td>
                         <td>{{ \Carbon\Carbon::parse($user->created_at)->toFormattedDateString() }}</td>
-                        <td>HR</td>
+                        <td>{{ $user->role->name }}</td>
                         <td>
                             <div class="d-flex align-items-center">
                                 <div class="symbol symbol-50 flex-shrink">
@@ -50,7 +60,7 @@
                                     </a>
                                 </div>
                                 <div class="ml-4 symbol symbol-50 flex-shrink">
-                                    <a href="#" class="action-icon">
+                                    <a href="{{ route('user.delete', $user->id) }}" class="action-icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                                           </svg>
@@ -163,31 +173,33 @@
                         </div>
                     </div>
                     <div>
-                        <div class="row p-4 justify-content-between">
-                            <input type="hidden" name="permission">
-                            @foreach ($permissions as $permission)
-                                <div class="col-lg-5">
-                                    <h6 class="mb-4 permission-header">{{ $permission->name }}</h6>
+                        <input type="hidden" name="permission" id="permission-id" value="1">
+                        @foreach ($permissions as $permission)
+                            <a href="#" class="row-link" data-name="type{{ $permission->id }}" data-val="{{ $permission->id }}" >
+                                <div class="row pl-4 pr-4 pt-3 justify-content-between">
+                                    <div class="col-lg-5">
+                                        <h6 class=" permission-header">{{ $permission->name }}</h6>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <h6 class=" permission-header ">
+                                            <input class="form-check-input permission-check {{ $permission->read == false ? '' : 'type'.$permission->id }} " data-perm="type{{ $permission->id }}" id="check{{ $permission->id . 'read' }}" type="checkbox" value="{{ $permission->id }}" {{ $permission->read == true && $loop->iteration == 1 ? 'checked' : '' }} disabled>
+                                        </h6>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <h6 class=" permission-header">
+                                            <input class="form-check-input permission-check {{ $permission->write == false ? '' : 'type'.$permission->id }} " data-perm="type{{ $permission->id }}" id="check{{ $permission->id . 'write' }}" type="checkbox" value="{{ $permission->id }}" {{ $permission->write == true && $loop->iteration == 1 ? 'checked' : '' }} disabled>
+                                        </h6>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <h6 class=" permission-header">
+                                            <input class="form-check-input permission-check {{ $permission->delete == false ? '' : 'type'.$permission->id }} " data-perm="type{{ $permission->id }}" id="check{{ $permission->id . 'delete' }}" type="checkbox" value="{{ $permission->id }}" {{ $permission->delete == true && $loop->iteration == 1 ? 'checked' : '' }} disabled>
+                                        </h6>
+                                    </div>
                                 </div>
-                                <div class="col-lg-2">
-                                    <h6 class="mb-4 permission-header ">
-                                        <input class="form-check-input type{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" id="flexCheckChecked" {{ $permission->read == true ? 'checked' : '' }}>
-                                    </h6>
-                                </div>
-                                <div class="col-lg-2">
-                                    <h6 class="mb-4 permission-header">
-                                        <input class="form-check-input type{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" id="flexCheckChecked" {{ $permission->write == true ? 'checked' : '' }}>
-                                    </h6>
-                                </div>
-                                <div class="col-lg-2">
-                                    <h6 class="mb-4 permission-header">
-                                        <input class="form-check-input type{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" id="flexCheckChecked" {{ $permission->delete == true ? 'checked' : '' }}>
-                                    </h6>
-                                </div>
-                            @endforeach
-                        </div>
+                            </a>
+                        @endforeach
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer mt-3">
                         <button type="submit" class="btn btn-primary mr-3">Add User</button>
                         <a href="#" class="modal-close" data-dismiss="modal">Close</a>
                     </div>
@@ -200,27 +212,24 @@
 
 @section('page_scripts')
     <script>
-        // $(document).ready(function() {
-        //     $('#example').DataTable( {
-        //         "columnDefs": [
-        //             {
-        //                 // The `data` parameter refers to the data for the cell (defined by the
-        //                 // `data` option, which defaults to the column being worked with, in
-        //                 // this case `data: 0`.
-        //                 "render": function ( data, type, row ) {
-        //                     return data +' ('+ row[3]+')';
-        //                 },
-        //                 "targets": 0
-        //             },
-        //             { "visible": false,  "targets": [ 3 ] }
-        //         ]
-        //     } );
-        // } );
         $(document).ready(function() {
             $('#example').DataTable();
         } );
 
-        // var myModal = new bootstrap.Modal(document.getElementById("exampleModal"));
-        // myModal.show();
+        var permission_id = $('#permission-id')
+
+        $('.row-link').on('click', function(e){
+            var this_class = $(this).data("name")
+            var this_val = $(this).data("val")
+            checkValid(this_class);
+            permission_id.val(this_val)
+        })
+
+        function checkValid(this_class){
+            console.log('chek valid called', this_class)
+            $('.permission-check').attr('checked', false);
+            $('.'+this_class).attr('checked', true);
+        }
+
     </script>
 @endsection
